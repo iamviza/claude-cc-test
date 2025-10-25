@@ -44,12 +44,36 @@ Voici quelques exemples de ce que vous pouvez demander à Claude Code :
 "Commit mes changements avec un message descriptif"
 ```
 
+## Projet d'exemple : Calculatrice Simple
+
+Ce repository contient une calculatrice interactive en Python pour démontrer les capacités de Claude Code.
+
+### Utilisation
+
+Lancer la calculatrice :
+```bash
+python calculatrice.py
+```
+
+Exécuter les tests :
+```bash
+python test_calculatrice.py -v
+```
+
+### Fonctionnalités
+
+- Addition, soustraction, multiplication, division
+- Gestion des erreurs (division par zéro)
+- Tests unitaires complets
+- Interface en ligne de commande intuitive
+
 ## Structure du projet
 
 ```
 claude-cc-test/
 ├── README.md
-└── (vos fichiers de test ici)
+├── calculatrice.py          # Application principale
+└── test_calculatrice.py     # Tests unitaires
 ```
 
 ## Ressources
