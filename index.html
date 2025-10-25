@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice Web - Claude Code Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .display {
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: right;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .previous-operand {
+            color: #999;
+            font-size: 18px;
+            min-height: 24px;
+        }
+
+        .current-operand {
+            color: #333;
+            font-size: 32px;
+            font-weight: bold;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-number {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-number:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-operator {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-operator:hover {
+            background: #5568d3;
+        }
+
+        .btn-equals {
+            background: #764ba2;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-equals:hover {
+            background: #653a8a;
+        }
+
+        .btn-clear {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-clear:hover {
+            background: #ff5252;
+        }
+
+        .btn-delete {
+            background: #ffa726;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #fb8c00;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 Calculatrice Web</h1>
+        <p class="subtitle">Créée avec Claude Code</p>
+
+        <div class="calculator">
+            <div class="display">
+                <div class="previous-operand" id="previous-operand"></div>
+                <div class="current-operand" id="current-operand">0</div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn-clear" onclick="calculator.clear()">C</button>
+                <button class="btn-delete" onclick="calculator.delete()">DEL</button>
+                <button class="btn-operator" onclick="calculator.chooseOperation('÷')">÷</button>
+                <button class="btn-operator" onclick="calculator.chooseOperation('×')">×</button>
+
+                <button class="btn-number" onclick="calculator.appendNumber('7')">7</button>
+                <button class="btn-number" onclick="calculator.appendNumber('8')">8</button>
+                <button class="btn-number" onclick="calculator.appendNumber('9')">9</button>
+                <button class="btn-operator" onclick="calculator.chooseOperation('-')">−</button>
+
+                <button class="btn-number" onclick="calculator.appendNumber('4')">4</button>
+                <button class="btn-number" onclick="calculator.appendNumber('5')">5</button>
+                <button class="btn-number" onclick="calculator.appendNumber('6')">6</button>
+                <button class="btn-operator" onclick="calculator.chooseOperation('+')">+</button>
+
+                <button class="btn-number" onclick="calculator.appendNumber('1')">1</button>
+                <button class="btn-number" onclick="calculator.appendNumber('2')">2</button>
+                <button class="btn-number" onclick="calculator.appendNumber('3')">3</button>
+                <button class="btn-equals" onclick="calculator.compute()">=</button>
+
+                <button class="btn-number" onclick="calculator.appendNumber('0')" style="grid-column: span 2">0</button>
+                <button class="btn-number" onclick="calculator.appendNumber('.')">.</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Projet de test • <a href="https://github.com" target="_blank">GitHub</a></p>
+            <p style="margin-top: 5px;">Propulsé par <a href="https://claude.com/claude-code" target="_blank">Claude Code</a></p>
+        </div>
+    </div>
+
+    <script>
+        class Calculator {
+            constructor(previousOperandElement, currentOperandElement) {
+                this.previousOperandElement = previousOperandElement;
+                this.currentOperandElement = currentOperandElement;
+                this.clear();
+            }
+
+            clear() {
+                this.currentOperand = '0';
+                this.previousOperand = '';
+                this.operation = undefined;
+                this.updateDisplay();
+            }
+
+            delete() {
+                if (this.currentOperand === '0') return;
+                this.currentOperand = this.currentOperand.toString().slice(0, -1);
+                if (this.currentOperand === '') {
+                    this.currentOperand = '0';
+                }
+                this.updateDisplay();
+            }
+
+            appendNumber(number) {
+                if (number === '.' && this.currentOperand.includes('.')) return;
+                if (this.currentOperand === '0' && number !== '.') {
+                    this.currentOperand = number;
+                } else {
+                    this.currentOperand = this.currentOperand.toString() + number.toString();
+                }
+                this.updateDisplay();
+            }
+
+            chooseOperation(operation) {
+                if (this.currentOperand === '') return;
+                if (this.previousOperand !== '') {
+                    this.compute();
+                }
+                this.operation = operation;
+                this.previousOperand = this.currentOperand;
+                this.currentOperand = '0';
+                this.updateDisplay();
+            }
+
+            compute() {
+                let computation;
+                const prev = parseFloat(this.previousOperand);
+                const current = parseFloat(this.currentOperand);
+                if (isNaN(prev) || isNaN(current)) return;
+
+                switch (this.operation) {
+                    case '+':
+                        computation = prev + current;
+                        break;
+                    case '-':
+                        computation = prev - current;
+                        break;
+                    case '×':
+                        computation = prev * current;
+                        break;
+                    case '÷':
+                        if (current === 0) {
+                            alert('Division par zéro impossible !');
+                            this.clear();
+                            return;
+                        }
+                        computation = prev / current;
+                        break;
+                    default:
+                        return;
+                }
+
+                this.currentOperand = computation;
+                this.operation = undefined;
+                this.previousOperand = '';
+                this.updateDisplay();
+            }
+
+            updateDisplay() {
+                this.currentOperandElement.textContent = this.currentOperand;
+                if (this.operation != null) {
+                    this.previousOperandElement.textContent =
+                        `${this.previousOperand} ${this.operation}`;
+                } else {
+                    this.previousOperandElement.textContent = '';
+                }
+            }
+        }
+
+        const previousOperandElement = document.getElementById('previous-operand');
+        const currentOperandElement = document.getElementById('current-operand');
+
+        const calculator = new Calculator(previousOperandElement, currentOperandElement);
+
+        // Support du clavier
+        document.addEventListener('keydown', (e) => {
+            if (e.key >= '0' && e.key <= '9') calculator.appendNumber(e.key);
+            if (e.key === '.') calculator.appendNumber('.');
+            if (e.key === '+') calculator.chooseOperation('+');
+            if (e.key === '-') calculator.chooseOperation('-');
+            if (e.key === '*') calculator.chooseOperation('×');
+            if (e.key === '/') {
+                e.preventDefault();
+                calculator.chooseOperation('÷');
+            }
+            if (e.key === 'Enter' || e.key === '=') {
+                e.preventDefault();
+                calculator.compute();
+            }
+            if (e.key === 'Escape') calculator.clear();
+            if (e.key === 'Backspace') calculator.delete();
+        });
+    </script>
+</body>
+</html>

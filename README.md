@@ -44,11 +44,41 @@ Voici quelques exemples de ce que vous pouvez demander à Claude Code :
 "Commit mes changements avec un message descriptif"
 ```
 
-## Projet d'exemple : Calculatrice Simple
+## Projets d'exemple
 
-Ce repository contient une calculatrice interactive en Python pour démontrer les capacités de Claude Code.
+### 1. Calculatrice Web (HTML/CSS/JS)
 
-### Utilisation
+Une calculatrice web moderne et interactive accessible directement dans le navigateur.
+
+**Démo en ligne** : Activez GitHub Pages pour voir la démo !
+
+#### Comment activer GitHub Pages :
+
+1. Allez dans les **Settings** de votre repository GitHub
+2. Dans le menu de gauche, cliquez sur **Pages**
+3. Sous **Source**, sélectionnez la branche `claude/test-code-web-011CUTjiHkQcG2MW29FavDA3`
+4. Cliquez sur **Save**
+5. Attendez quelques minutes, votre site sera accessible à l'URL affichée
+
+#### Fonctionnalités :
+
+- Interface moderne avec dégradé de couleurs
+- Opérations : addition, soustraction, multiplication, division
+- Responsive design
+- Support du clavier (chiffres, opérateurs, Enter, Escape, Backspace)
+- Gestion des erreurs (division par zéro)
+
+#### Utilisation locale :
+
+Ouvrez simplement `index.html` dans votre navigateur !
+
+---
+
+### 2. Calculatrice CLI (Python)
+
+Une calculatrice en ligne de commande avec tests unitaires.
+
+#### Utilisation
 
 Lancer la calculatrice :
 ```bash
@@ -60,11 +90,11 @@ Exécuter les tests :
 python test_calculatrice.py -v
 ```
 
-### Fonctionnalités
+#### Fonctionnalités
 
 - Addition, soustraction, multiplication, division
 - Gestion des erreurs (division par zéro)
-- Tests unitaires complets
+- Tests unitaires complets (100% coverage)
 - Interface en ligne de commande intuitive
 
 ## Structure du projet
@@ -72,8 +102,10 @@ python test_calculatrice.py -v
 ```
 claude-cc-test/
 ├── README.md
-├── calculatrice.py          # Application principale
-└── test_calculatrice.py     # Tests unitaires
+├── index.html               # Calculatrice Web
+├── calculatrice.py          # Calculatrice CLI
+├── test_calculatrice.py     # Tests unitaires
+└── .gitignore               # Configuration Git
 ```
 
 ## Ressources
